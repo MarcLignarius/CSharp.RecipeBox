@@ -53,14 +53,14 @@ namespace RecipeBox.Tests
     }
 
     [TestMethod]
-        public void Equals_ReturnsTrueIfNamesAreTheSame_Cuisine()
-        {
-            //Arrange, Act
-            Cuisine firstCuisine = new Cuisine("French");
-            Cuisine secondCuisine = new Cuisine("French");
+      public void Equals_ReturnsTrueIfNamesAreTheSame_Cuisine()
+      {
+          //Arrange, Act
+          Cuisine firstCuisine = new Cuisine("French");
+          Cuisine secondCuisine = new Cuisine("French");
 
-            //Assert
-            Assert.AreEqual(firstCuisine, secondCuisine);
-        }
+          //Assert
+          Assert.AreEqual(firstCuisine, secondCuisine);
+      }
   }
 }

@@ -107,7 +107,7 @@ namespace RecipeBox.Models
             while(rdr.Read())
             {
               cuisineId = rdr.GetInt32(0);
-              cuisineName = rdr.GetString(1);
+              cuisineRegion = rdr.GetString(1);
             }
             Cuisine newCuisine = new Cuisine(cuisineRegion, cuisineId);
             conn.Close();
