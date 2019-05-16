@@ -117,38 +117,37 @@ namespace RecipeBox.Models
             }
             return newCuisine;
         }
-        // public List<Client> GetClients()
-        // {
-        //   List<Client> allCuisineClients = new List<Client> {};
-        //   MySqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //   var cmd = conn.CreateCommand() as MySqlCommand;
-        //   cmd.CommandText = @"SELECT * FROM clients WHERE cuisine_id = @cuisine_id;";
-        //   MySqlParameter cuisineId = new MySqlParameter();
-        //   cuisineId.ParameterName = "@cuisine_id";
-        //   cuisineId.Value = this._id;
-        //   cmd.Parameters.Add(cuisineId);
-        //   var rdr = cmd.ExecuteReader() as MySqlDataReader;
-        //   while(rdr.Read())
-        //   {
-        //     int clientId = rdr.GetInt32(0);
-        //     string clientFirstName = rdr.GetString(1);
-        //     string clientLastName = rdr.GetString(2);
-        //     string clientPhoneNumber = rdr.GetString(3);
-        //     string clientEmailAddress = rdr.GetString(4);
-        //     int clientCuisineId = rdr.GetInt32(5);
-        //     Client newClient = new Client(clientFirstName, clientLastName, clientPhoneNumber, clientEmailAddress, clientCuisineId, clientId);
-        //     allCuisineClients.Add(newClient);
-        //   }
-        //   conn.Close();
-        //   if (conn != null)
-        //   {
-        //       conn.Dispose();
-        //   }
-        //   return allCuisineClients;
-        // }
-        //
 
-        //
+        public List<Recipe> GetRecipes()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT recipes.* FROM cuisines
+                JOIN cuisines_recipes ON (cuisines.id = cuisines_recipes.cuisine_id)
+                JOIN recipes ON (cuisines_recipes.recipe_id = recipes.id)
+                WHERE cuisines.id = @cuisine_id;";
+            MySqlParameter cuisineIdParameter = new MySqlParameter();
+            cuisineIdParameter.ParameterName = "@cuisine_id";
+            cuisineIdParameter.Value = Id;
+            cmd.Parameters.Add(cuisineIdParameter);
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            List<Recipe> recipes = new List<Recipe>{};
+            while(rdr.Read())
+            {
+                int recipeId = rdr.GetInt32(0);
+                string recipeName = rdr.GetString(1);
+                string recipeIngredients = rdr.GetString(2);
+                string recipeInstructions = rdr.GetString(3);
+                Recipe newRecipe = new Recipe(recipeName, recipeIngredients, recipeInstructions, recipeId);
+                recipes.Add(newRecipe);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+              conn.Dispose();
+            }
+            return recipes;
+        }
     }
 }

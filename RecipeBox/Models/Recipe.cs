@@ -138,14 +138,14 @@ namespace RecipeBox.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE recipes SET name = @new_name, ingredients = @new_ingredients, instructions = @new_instructions, WHERE id = @search_id;";
+            cmd.CommandText = @"UPDATE recipes SET name = @new_name, ingredients = @new_ingredients, instructions = @new_instructions WHERE id = @search_id;";
             MySqlParameter searchId = new MySqlParameter();
             searchId.ParameterName = "@search_id";
             searchId.Value = Id;
             cmd.Parameters.Add(searchId);
             MySqlParameter name = new MySqlParameter();
             name.ParameterName = "@new_name";
-            name.Value = Id;
+            name.Value = newName;
             cmd.Parameters.Add(name);
             MySqlParameter ingredients = new MySqlParameter();
             ingredients.ParameterName = "@new_ingredients";
@@ -153,9 +153,10 @@ namespace RecipeBox.Models
             cmd.Parameters.Add(ingredients);
             MySqlParameter instructions = new MySqlParameter();
             instructions.ParameterName = "@new_instructions";
-            instructions.Value = this.Instructions;
+            instructions.Value = newInstructions;
             cmd.Parameters.Add(instructions);
             cmd.ExecuteNonQuery();
+            Name = newName;
             Ingredients = newIngredients;
             Instructions = newInstructions;
             conn.Close();
@@ -182,15 +183,15 @@ namespace RecipeBox.Models
             }
         }
 
-        public List<Cuisine> GetCategories()
+        public List<Cuisine> GetCuisine()
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT recipes.* FROM cuisines
-                JOIN cuisines_recipes ON (cuisines.id = cuisines_recipes.cuisine_id)
-                JOIN recipes ON (cuisines_recipes.patient_id = recipes.id)
-                WHERE cuisines.id = @cuisine_id;";
+            cmd.CommandText = @"SELECT cuisines.* FROM recipes
+                JOIN cuisines_recipes ON (recipes.id = cuisines_recipes.recipe_id)
+                JOIN cuisines ON (cuisines_recipes.cuisine_id = cuisines.id)
+                WHERE recipes.id = @recipe_id;";
             MySqlParameter recipeIdParameter = new MySqlParameter();
             recipeIdParameter.ParameterName = "@recipe_id";
             recipeIdParameter.Value = Id;
@@ -211,6 +212,7 @@ namespace RecipeBox.Models
             }
             return cuisines;
         }
+
 
         public void AddCuisine(Cuisine newCuisine)
         {
