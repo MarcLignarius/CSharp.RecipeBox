@@ -24,7 +24,7 @@ namespace RecipeBox.Tests
     public void Save_SavesCuisineToDatabase_CuisineList()
     {
       //Arrange
-      Cuisine testCuisine = new Cuisine("Household chores");
+      Cuisine testCuisine = new Cuisine("Japanese", "It's good");
       testCuisine.Save();
 
       //Act
@@ -39,7 +39,7 @@ namespace RecipeBox.Tests
     public void Save_DatabaseAssignsIdToCuisine_Id()
     {
       //Arrange
-      Cuisine testCuisine = new Cuisine("Household chores");
+      Cuisine testCuisine = new Cuisine("Japanese", "It's good");
       testCuisine.Save();
 
       //Act
@@ -47,6 +47,8 @@ namespace RecipeBox.Tests
 
       int result = savedCuisine.Id;
       int testId = testCuisine.Id;
+      Console.WriteLine(result);
+      Console.WriteLine(testId);
 
       //Assert
       Assert.AreEqual(testId, result);
@@ -56,8 +58,8 @@ namespace RecipeBox.Tests
       public void Equals_ReturnsTrueIfNamesAreTheSame_Cuisine()
       {
           //Arrange, Act
-          Cuisine firstCuisine = new Cuisine("French");
-          Cuisine secondCuisine = new Cuisine("French");
+          Cuisine firstCuisine = new Cuisine("Japanese", "It's good");
+          Cuisine secondCuisine = new Cuisine("Japanese", "It's good");
 
           //Assert
           Assert.AreEqual(firstCuisine, secondCuisine);

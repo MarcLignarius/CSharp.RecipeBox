@@ -121,7 +121,7 @@ namespace RecipeBox.Tests
 
       Recipe testRecipe = new Recipe("Manburger", "man-meat, man-buns", "Turn stove top to medium heat, grill meat until cooked through, assemble burger to your preference");
       testRecipe.Save();
-      Cuisine testCuisine = new Cuisine("Home stuff");
+      Cuisine testCuisine = new Cuisine("Japanese", "It's good");
       testCuisine.Save();
 
       //Act
@@ -140,9 +140,9 @@ namespace RecipeBox.Tests
         //Arrange
         Recipe testRecipe = new Recipe("Manburger", "man-meat, man-buns", "Turn stove top to medium heat, grill meat until cooked through, assemble burger to your preference");
         testRecipe.Save();
-        Cuisine testCuisine1 = new Cuisine("Home stuff");
+        Cuisine testCuisine1 = new Cuisine("Japanese", "It's good");
         testCuisine1.Save();
-        Cuisine testCuisine2 = new Cuisine("Work stuff");
+        Cuisine testCuisine2 = new Cuisine("German", "It's ok");
         testCuisine2.Save();
 
         //Act
@@ -158,7 +158,7 @@ namespace RecipeBox.Tests
     public void Delete_DeletesRecipeAssociationsFromDatabase_RecipeList()
     {
         //Arrange
-        Cuisine testCuisine = new Cuisine("Home stuff");
+        Cuisine testCuisine = new Cuisine("Japanese", "It's good");
         testCuisine.Save();
         string testName = "Mow the lawn";
         Recipe testRecipe = new Recipe(testName, "stuff", "make stuff");
