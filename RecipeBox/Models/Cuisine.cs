@@ -7,11 +7,13 @@ namespace RecipeBox.Models
     public class Cuisine
     {
         public string Region {get; set;}
+        public string Description {get; set;}
         public int Id {get; set;}
 
-        public Cuisine(string region, int id = 0)
+        public Cuisine(string region, string description, int id = 0)
         {
             Region = region;
+            Description = description;
             Id = id;
         }
 
@@ -26,7 +28,8 @@ namespace RecipeBox.Models
                 Cuisine newCuisine = (Cuisine) otherCuisine;
                 bool idEquality = this.Id.Equals(newCuisine.Id);
                 bool regionEquality = this.Region.Equals(newCuisine.Region);
-                return (idEquality && regionEquality);
+                bool descriptionEquality = this.Description.Equals(newCuisine.Description);
+                return (idEquality && regionEquality && descriptionEquality);
             }
         }
 
@@ -47,7 +50,8 @@ namespace RecipeBox.Models
           {
             int cuisineId = rdr.GetInt32(0);
             string cuisineRegion = rdr.GetString(1);
-            Cuisine newCuisine = new Cuisine(cuisineRegion, cuisineId);
+            string cuisineDescription = rdr.GetString(2);
+            Cuisine newCuisine = new Cuisine(cuisineRegion, cuisineDescription, cuisineId);
             allCuisines.Add(newCuisine);
           }
           conn.Close();
@@ -77,11 +81,15 @@ namespace RecipeBox.Models
           MySqlConnection conn = DB.Connection();
           conn.Open();
           var cmd = conn.CreateCommand() as MySqlCommand;
-          cmd.CommandText = @"INSERT INTO cuisines (region) VALUES (@region);";
+          cmd.CommandText = @"INSERT INTO cuisines (region, description) VALUES (@region, @description);";
           MySqlParameter region = new MySqlParameter();
           region.ParameterName = "@region";
           region.Value = this.Region;
           cmd.Parameters.Add(region);
+          MySqlParameter description = new MySqlParameter();
+          description.ParameterName = "@description";
+          description.Value = this.Description;
+          cmd.Parameters.Add(description);
           cmd.ExecuteNonQuery();
           Id = (int) cmd.LastInsertedId;
           conn.Close();
@@ -104,12 +112,14 @@ namespace RecipeBox.Models
             var rdr = cmd.ExecuteReader() as MySqlDataReader;
             int cuisineId = 0;
             string cuisineRegion = "";
+            string cuisineDescription = "";
             while(rdr.Read())
             {
               cuisineId = rdr.GetInt32(0);
               cuisineRegion = rdr.GetString(1);
+              cuisineDescription = rdr.GetString(2);
             }
-            Cuisine newCuisine = new Cuisine(cuisineRegion, cuisineId);
+            Cuisine newCuisine = new Cuisine(cuisineRegion, cuisineDescription, cuisineId);
             conn.Close();
             if (conn != null)
             {

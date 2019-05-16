@@ -202,7 +202,8 @@ namespace RecipeBox.Models
             {
                 int thisCuisineId = rdr.GetInt32(0);
                 string cuisineRegion = rdr.GetString(1);
-                Cuisine foundCuisine = new Cuisine(cuisineRegion, thisCuisineId);
+                string cuisineDescription = rdr.GetString(2);
+                Cuisine foundCuisine = new Cuisine(cuisineRegion, cuisineDescription, thisCuisineId);
                 cuisines.Add(foundCuisine);
             }
             conn.Close();

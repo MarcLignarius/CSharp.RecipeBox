@@ -1,5 +1,56 @@
-﻿.strike-through {
+body {
+  background-image: url("https://i.pinimg.com/originals/a2/79/fb/a279fb3e1f8517d5ab07c2a5ceeaae64.jpg");
+  background-blend-mode: multiply;
+  background-color: #3D3A39;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: white;
+}
+
+.jumbotron h1, em {
+  opacity: 0.80;
+}
+
+.jumbotron {
+  background: rgba(61, 58, 57, 0.75);
+}
+
+.btn {
+  margin-bottom: 5px;
+  background: rgba(61, 58, 57, 0.75);
+}
+
+#space {
+  margin-top: 50px;
+}
+
+label, input {
+    display: inline-block;
+    vertical-align: baseline;
+  }
+
+input {
+  margin-bottom: 5px;
+}
+
+hr {
+  border-color: white;
+  opacity: 0.80;
+}
+
+.list {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.card {
+  background: rgba(61, 58, 57, 0.70);
+  margin-bottom: 5px;
+}
+
+.strike-through {
   text-decoration: line-through;
   color: red;
-  
+
 }

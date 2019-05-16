@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Hannibal's Recipe Box</title>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='~/css/styles.css' type="text/css">
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Hannibal's Recipe Box</h1>
+    </div>
+    <h5>Please enter new cuisine:</h5><br>
+    <form action="/cuisines" method="post">
+      <label for="region">Region: </label><br>
+      <input id="region" name="region" type="text"><br>
+      <label for="description">About: </label><br>
+      <textarea rows="5" cols="80" id="description" name="description" autofocus="autofocus" required>
+      </textarea><br>
+      <button type="submit" class="btn btn-dark">Add</button>
+    </form>
+    <div id="space">
+    </div>
+    <hr>
+    <a href="/cuisines" class="btn btn-dark">Back to cuisines</a>
+    <a href="/" class="btn btn-dark">Home</a>
+  </div>
+</body>
+</html>
