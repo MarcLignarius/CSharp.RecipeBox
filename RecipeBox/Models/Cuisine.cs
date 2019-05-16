@@ -159,5 +159,28 @@ namespace RecipeBox.Models
             }
             return recipes;
         }
+
+        public void AddRecipe(Recipe newRecipe)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO cuisines_recipes (cuisine_id, recipe_id) VALUES (@cuisine_id, @recipe_id);";
+            MySqlParameter cuisine_id = new MySqlParameter();
+            cuisine_id.ParameterName = "@cuisine_id";
+            cuisine_id.Value = Id;
+            cmd.Parameters.Add(cuisine_id);
+            MySqlParameter recipe_id = new MySqlParameter();
+            recipe_id.ParameterName = "@recipe_id";
+            recipe_id.Value = newRecipe.Id;;
+            cmd.Parameters.Add(recipe_id);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
     }
 }

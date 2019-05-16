@@ -30,13 +30,15 @@ namespace RecipeBox.Controllers
         }
 
 
-        // [HttpGet("/cuisines/{cuisineId}/recipes/new")]
-        // public ActionResult New(int cuisineId)
-        // {
-        //     Cuisine cuisine = Cuisine.Find(cuisineId);
-        //     return View(cuisine);
-        // }
-        //
+        [HttpGet("/cuisines/{cuisineId}/recipes/new")]
+        public ActionResult New(int cuisineId)
+        {
+            Cuisine cuisine = Cuisine.Find(cuisineId);
+            return View(cuisine);
+        }
+
+      
+
         // [HttpGet("/cuisines/{cuisineId}/recipes/{recipeId}")]
         // public ActionResult Show(int cuisineId, int recipeId)
         // {

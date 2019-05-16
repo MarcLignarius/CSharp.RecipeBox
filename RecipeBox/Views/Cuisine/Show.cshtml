@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Hannibal's Recipe Box</title>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='~/css/styles.css' type="text/css">
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Hannibal's Recipe Box</h1>
+    </div>
+    <h5>Current recipes in the @Model["cuisine"].Region cuisine:</h5><br>
+    @if(Model.Count != 0)
+    {
+      @foreach (var recipe in @Model["cuisineRecipes"])
+      {
+        <a href="/cuisines/@Model["cuisineRecipes"]" class="btn btn-dark">@recipe.Name</a><br>
+      }
+    }
+    <br>
+    <h5>Add a recipe to this cuisine:</h5><br>
+    <form action='/cuisines/@Model["cuisine"].Id' method='post'>
+      <label for='recipe_id'>Select a recipe:</label><br>
+      <select id='recipe_id' name='recipe_id' type='text'><br>
+        @foreach (var recipe in @Model["allRecipes"])
+        {
+          <option value='@recipe.Id'>@recipe.Name</option><br>
+        }
+      </select><br>
+      <br>
+      <button type='submit' class="btn btn-dark">Add</button>
+    </form>
+    <div id="space">
+    </div>
+    <hr>
+    <a href="/cuisines" class="btn btn-dark">Return to cuisine list</a>
+    <a href="/" class="btn btn-dark">Return to homepage</a>
+  </div>
+</body>
+</html>

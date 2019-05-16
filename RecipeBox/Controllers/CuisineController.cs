@@ -28,18 +28,30 @@ namespace RecipeBox.Controllers
             List<Cuisine> allCuisines = Cuisine.GetAll();
             return View("Index", allCuisines);
         }
-        //
-        // [HttpGet("/cuisines/{id}")]
-        // public ActionResult Show(int id)
-        // {
-        //     Dictionary<string, object> model = new Dictionary<string, object>();
-        //     Cuisine selectedCuisine = Cuisine.Find(id);
-        //     List<Recipe> cuisineRecipes = selectedCuisine.GetRecipes();
-        //     model.Add("cuisine", selectedCuisine);
-        //     model.Add("recipes", cuisineRecipes);
-        //     return View(model);
-        // }
-        //
+
+        [HttpGet("/cuisines/{id}")]
+        public ActionResult Show(int id)
+        {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Cuisine selectedCuisine = Cuisine.Find(id);
+            List<Recipe> cuisineRecipes = selectedCuisine.GetRecipes();
+            List<Recipe> allRecipes = Recipe.GetAll();
+            model.Add("cuisine", selectedCuisine);
+             model.Add("cuisineRecipes", cuisineRecipes);
+            model.Add("allRecipes", allRecipes);
+            return View(model);
+        }
+
+        [HttpPost("/cuisines/{cuisineId}")]
+        public ActionResult AddRecipe(int cuisineId, int recipeId)
+        {
+            Cuisine cuisine = Cuisine.Find(cuisineId);
+            Recipe recipe = Recipe.Find(recipeId);
+            cuisine.AddRecipe(recipe);
+            List<Recipe> allRecipes = cuisine.GetRecipes();
+            return RedirectToAction("Show",  new { id = cuisineId });
+        }
+
         // [HttpPost("/cuisines/{cuisineId}/recipes")]
         // public ActionResult Create(int cuisineId, string firstName, string lastName, string phoneNumber, string emailAddress)
         // {
