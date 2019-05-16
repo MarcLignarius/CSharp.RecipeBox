@@ -16,12 +16,12 @@
     {
       @foreach (var recipe in @Model["cuisineRecipes"])
       {
-        <a href="/cuisines/@Model["cuisineRecipes"]" class="btn btn-dark">@recipe.Name</a><br>
+        <a href="/recipes/@recipe.Id" class="btn btn-dark">@recipe.Name</a><br>
       }
     }
     <br>
     <h5>Add a recipe to this cuisine:</h5><br>
-    <form action='/cuisines/@Model["cuisine"].Id' method='post'>
+    <form action='/cuisines/@Model["cuisine"].Id/recipes/new' method='post'>
       <label for='recipe_id'>Select a recipe:</label><br>
       <select id='recipe_id' name='recipe_id' type='text'><br>
         @foreach (var recipe in @Model["allRecipes"])

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeBox.Models;
 using System.Collections.Generic;
+using System;
 
 namespace RecipeBox.Controllers
 {
@@ -14,12 +15,6 @@ namespace RecipeBox.Controllers
             return View(allRecipes);
         }
 
-        [HttpGet("/recipes/new")]
-        public ActionResult New()
-        {
-            return View();
-        }
-
         [HttpPost("/recipes")]
         public ActionResult Create(string name, string ingredients, string instructions)
         {
@@ -29,27 +24,46 @@ namespace RecipeBox.Controllers
             return View("Index", allRecipes);
         }
 
-
-        [HttpGet("/cuisines/{cuisineId}/recipes/new")]
-        public ActionResult New(int cuisineId)
+        [HttpGet("/recipes/new")]
+        public ActionResult New()
         {
-            Cuisine cuisine = Cuisine.Find(cuisineId);
-            return View(cuisine);
+            return View();
         }
 
-      
+        [HttpGet("/recipes/{id}")]
+        public ActionResult Show(int id)
+        {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Recipe selectedRecipe = Recipe.Find(id);
+            List<Cuisine> recipeCuisines = selectedRecipe.GetCuisines();
+            List<Cuisine> allCuisines = Cuisine.GetAll();
+            model.Add("selectedRecipe", selectedRecipe);
+            model.Add("recipeCuisines", recipeCuisines);
+            model.Add("allCuisines", allCuisines);
+            return View(model);
+        }
 
-        // [HttpGet("/cuisines/{cuisineId}/recipes/{recipeId}")]
-        // public ActionResult Show(int cuisineId, int recipeId)
+        [HttpPost("/recipes/{recipe_id}/cuisines/new")]
+        public ActionResult AddCuisine(int recipe_id, int cuisine_id)
+        {
+            Recipe recipe = Recipe.Find(recipe_id);
+            Cuisine cuisine = Cuisine.Find(cuisine_id);
+            recipe.AddCuisine(cuisine);
+            return RedirectToAction("Show",  new { id = recipe_id });
+        }
+
+        // [HttpPost("/cuisines/{cuisineId}/recipes/{recipeId}")]
+        // public ActionResult Update(int cuisineId, int recipeId, string newDescription, DateTime newDueDate, bool newCompleted)
         // {
         //     Recipe recipe = Recipe.Find(recipeId);
+        //     recipe.Edit(newDescription, newDueDate, newCompleted);
         //     Dictionary<string, object> model = new Dictionary<string, object>();
         //     Cuisine cuisine = Cuisine.Find(cuisineId);
-        //     model.Add("recipe", recipe);
         //     model.Add("cuisine", cuisine);
-        //     return View(model);
+        //     model.Add("recipe", recipe);
+        //     return View("Show", model);
         // }
-        //
+
         // [HttpPost("/cuisines/{cuisineId}/recipes/{recipeId}/delete")]
         // public ActionResult Delete(int cuisineId, int recipeId)
         // {
@@ -75,15 +89,16 @@ namespace RecipeBox.Controllers
         // }
         //
         // [HttpPost("/cuisines/{cuisineId}/recipes/{recipeId}")]
-        // public ActionResult Update(int cuisineId, int recipeId, string newIngredients, string newInstructions)
+        // public ActionResult Update(int cuisineId, int recipeId, string newDescription)
         // {
         //     Recipe recipe = Recipe.Find(recipeId);
-        //     recipe.Edit(newPhoneNumber, newEmailAddress);
+        //     recipe.Edit(newDescription);
         //     Dictionary<string, object> model = new Dictionary<string, object>();
         //     Cuisine cuisine = Cuisine.Find(cuisineId);
         //     model.Add("cuisine", cuisine);
         //     model.Add("recipe", recipe);
         //     return View("Show", model);
         // }
+
     }
 }

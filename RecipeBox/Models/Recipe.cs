@@ -183,7 +183,7 @@ namespace RecipeBox.Models
             }
         }
 
-        public List<Cuisine> GetCuisine()
+        public List<Cuisine> GetCuisines()
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
